@@ -22,12 +22,28 @@ var factorial = function(n) {
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
 var sum = function(array) {
+  var arrayCopy = array.slice();
+  if (arrayCopy.length === 0 ){
+    return 0;
+  } else {
+    return arrayCopy.pop() + sum(arrayCopy);
+  }
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+  var total = 0
+  array.forEach(function(current){
+    if (Array.isArray(current)){
+      total += arraySum(current);
+    } else {
+      total += current
+    }
+  })
+  return total;
 };
+
 
 // 4. Check if a number is even.
 var isEven = function(n) {
