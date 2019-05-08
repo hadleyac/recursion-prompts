@@ -405,7 +405,30 @@ var rMap = function(array, callback) {
 // var obj = {'e':{'x':'y'},'t':{'r':{'e':'r'},'p':{'y':'r'}},'y':'e'};
 // countKeysInObj(obj, 'r') // 1
 // countKeysInObj(obj, 'e') // 2
-var countKeysInObj = function(obj, key) {
+var countKeysInObj = function(obj, targetKey) {
+  //set the defualt keycount to 0
+  var keycount = 0;
+
+  //if the object that we are looking at has keys in it
+  if (Object.keys(obj).length > 0){
+
+    //look at all keys and add matching keys to keycount
+    for (var key in obj){
+      if (key === targetKey){
+        keycount++
+      }
+      
+      //look at the value for each key. If the value is an object, 
+      //we are going to perform our recursive function on that
+      //we will add whatever we matches we find to our keycount
+      if (obj[key].constructor === Object){
+        keycount += countKeysInObj(obj[key], targetKey)
+      }
+    }
+  } 
+  //at the very end, we will return the keycount. Inside the recursive cases
+  //this keycount will add to the count of the topmost function.
+  return keycount;
 };
 
 // 23. Write a function that counts the number of times a value occurs in an object.
