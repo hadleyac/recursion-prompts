@@ -356,6 +356,21 @@ var buildList = function(value, length) {
 // For numbers which are multiples of both three and five, output “FizzBuzz” instead of the number.
 // fizzBuzz(5) // ['1','2','Fizz','4','Buzz']
 var fizzBuzz = function(n) {
+  if (n === 0){
+    return '';
+  } else {
+    var returnValue = ''
+    if (n % 3 === 0){
+      returnValue = returnValue + 'Fizz';
+    }
+    if (n % 5 === 0){
+      returnValue = returnValue + 'Buzz';
+    }
+    if ((n % 3 !== 0) && (n % 5 !== 0)){
+      returnValue = n.toString();
+    }
+    return [...fizzBuzz(n-1), returnValue]
+  }
 
 };
 
@@ -363,11 +378,27 @@ var fizzBuzz = function(n) {
 // countOccurrence([2,7,4,4,1,4], 4) // 3
 // countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
 var countOccurrence = function(array, value) {
+  if (array.length === 0){
+    return 0;
+  } else {
+    frontChar = array.shift()
+    if (frontChar === value){
+      return 1 + countOccurrence(array, value);
+    } else {
+      return countOccurrence(array, value);
+    }
+  }
 };
 
 // 21. Write a recursive version of map.
 // rMap([1,2,3], timesTwo); // [2,4,6]
 var rMap = function(array, callback) {
+  array = array.slice();
+  if (array.length === 0){
+    return '';
+  } else {
+    return [callback(array.shift()),...rMap(array, callback)];
+  }
 };
 
 // 22. Write a function that counts the number of times a key occurs in an object.
