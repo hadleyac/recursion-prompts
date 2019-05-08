@@ -303,15 +303,40 @@ var gcd = function(x, y) {
 // compareStr('house', 'houses') // false
 // compareStr('tomato', 'tomato') // true
 var compareStr = function(str1, str2) {
+  //Base case: if we have gone through each character and our strings are "empty", then they must be equal. Return true.
+  if (str1.length === 0 && str2.length === 0){
+    return true;
+  } 
+  //Recursion case: If the first characters match, we snip them off and return the function again
+  else if (str1.substring(0,1) === str2.substring(0,1)){
+    return compareStr(str1.substring(1,str1.length), str2.substring(1,str2.length))
+  } 
+  //If there is just ONE mismatch, the whole thing will be false. 
+  else {
+    return false;
+  }
 };
+
+
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
 var createArray = function(str) {
+  if (str.length === 0){
+    return '';
+  } else {
+    return [str.substring(0,1), ...createArray(str.substring(1, str.length))];
+  }
+
 };
 
 // 17. Reverse the order of an array
 var reverseArr = function(array) {
+  if (array.length === 0){
+    return ''
+  } else {
+    return [array.pop(), ...reverseArr(array)];
+  }
 };
 
 // 18. Create a new array with a given value and length.
