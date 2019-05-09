@@ -600,6 +600,16 @@ var letterTally = function(str, obj) {
 // compress([1,2,2,3,4,4,5,5,5]) // [1,2,3,4,5]
 // compress([1,2,2,3,4,4,2,5,5,5,4,4]) // [1,2,3,4,2,5,4]
 var compress = function(list) {
+  //if the next element matches this element, return recursed version of the list without the current element
+  if (list.length === 1){
+    return list;
+  } else if (list[0] === list[1]){
+    return [...compress(list.slice(1))];
+  } 
+  //else return the element to the array
+  else {
+    return [list[0],...compress(list.slice(1))];
+  }
 };
 
 // 33. Augment every element in a list with a new value where each element is an array
@@ -613,7 +623,7 @@ var augmentElements = function(array, aug) {
   else {
     array = array.slice();
     var firstElement = array.shift();
-    firstElement.push(aug)
+    firstElement.push(aug);
     return [firstElement, ...augmentElements(array, aug)];
   }
 };
@@ -622,6 +632,13 @@ var augmentElements = function(array, aug) {
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
 var minimizeZeroes = function(array) {
+  if (array.length === 1){
+    return array;
+  } else if (array[0] === 0 && array[1] === 0){
+    return [...minimizeZeroes(array.slice(1))];
+  } else {
+    return [array[0], ...minimizeZeroes(array.slice(1))];
+  }
 };
 
 // 35. Alternate the numbers in an array between positive and negative regardless of
@@ -629,12 +646,53 @@ var minimizeZeroes = function(array) {
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
 var alternateSign = function(array) {
+  if (array.length === 1){
+    return [Math.abs(array[0])];
+  } else {
+    if (array.length % 2 === 0){
+      var element = -(Math.abs(array.pop()));
+    } else {
+      var element = Math.abs(array.pop());
+    }
+    return [...alternateSign(array), element]
+  }
 };
 
 // 36. Given a string, return a string with digits converted to their word equivalent.
 // Assume all numbers are single digits (less than 10).
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
 var numToText = function(str) {
+  if (str.length === 0){
+    return '';
+  };
+
+  var numsToWords = {
+    1 : 'one',
+    2 : 'two', 
+    3 : 'three',
+    4 : 'four',
+    5 : 'five',
+    6 : 'six',
+    7 : 'seven',
+    8 : 'eight',
+    9 : 'nine',
+    10 : 'ten'
+  };
+
+  var words = str.split(' ');
+  var frontWord = words.shift();
+
+  //if we are at the last word in the list, don't add a space to the end. 
+  var space = ' ';
+  if (words.length === 0){
+    space = '';
+  }
+
+  if (!isNaN(parseInt(frontWord))){
+    frontWord = numsToWords[frontWord];
+  }
+
+  return frontWord + space + numToText(words.join(' '));
 };
 
 
